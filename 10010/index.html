@@ -1,0 +1,186 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Java多线程基础 | 米兰半岛铁盒</title><meta name="keywords" content="Java,多线程"><meta name="author" content="Silence"><meta name="copyright" content="Silence"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1.基本特性1.1特性①原子性：原子性是指一个操作是不可中断的； ②可见性：可见性是指当一个线程修改了某一个共享变量的值，其他线程是否能够立即知道这个修改； ③有序性：即程序执行的顺序按照代码的先后顺序执行。 1.2指令重排在计算机执行指令的顺序在经过程序编译器编译之后形成的指令序列，一般而言，这个指令序列是会输出确定的结果，以确保每一次的执行都有确定的结果。但是，一般情况下，CPU和编译器为了提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程基础">
+<meta property="og:url" content="https://silence-tao.github.io/10010/index.html">
+<meta property="og:site_name" content="米兰半岛铁盒">
+<meta property="og:description" content="1.基本特性1.1特性①原子性：原子性是指一个操作是不可中断的； ②可见性：可见性是指当一个线程修改了某一个共享变量的值，其他线程是否能够立即知道这个修改； ③有序性：即程序执行的顺序按照代码的先后顺序执行。 1.2指令重排在计算机执行指令的顺序在经过程序编译器编译之后形成的指令序列，一般而言，这个指令序列是会输出确定的结果，以确保每一次的执行都有确定的结果。但是，一般情况下，CPU和编译器为了提">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://silence-tao.github.io/img/default_page_img_04.jpeg">
+<meta property="article:published_time" content="2019-04-06T06:59:00.000Z">
+<meta property="article:modified_time" content="2022-09-04T09:45:24.395Z">
+<meta property="article:author" content="Silence">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="多线程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://silence-tao.github.io/img/default_page_img_04.jpeg"><link rel="shortcut icon" href="/img/avatar.png"><link rel="canonical" href="https://silence-tao.github.io/10010/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Silence","link":"链接: ","source":"来源: 米兰半岛铁盒","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java多线程基础',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-09-04 17:45:24'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/default_page_img_04.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">米兰半岛铁盒</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java多线程基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-04-06T06:59:00.000Z" title="发表于 2019-04-06 14:59:00">2019-04-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-09-04T09:45:24.395Z" title="更新于 2022-09-04 17:45:24">2022-09-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java多线程基础"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-基本特性"><a href="#1-基本特性" class="headerlink" title="1.基本特性"></a>1.基本特性</h2><h3 id="1-1特性"><a href="#1-1特性" class="headerlink" title="1.1特性"></a>1.1特性</h3><p>①原子性：原子性是指一个操作是不可中断的；</p>
+<p>②可见性：可见性是指当一个线程修改了某一个共享变量的值，其他线程是否能够立即知道这个修改；</p>
+<p>③有序性：即程序执行的顺序按照代码的先后顺序执行。</p>
+<h3 id="1-2指令重排"><a href="#1-2指令重排" class="headerlink" title="1.2指令重排"></a>1.2指令重排</h3><p>在计算机执行指令的顺序在经过程序编译器编译之后形成的指令序列，一般而言，这个指令序列是会输出确定的结果，以确保每一次的执行都有确定的结果。但是，一般情况下，CPU和编译器为了提升程序执行的效率，会按照一定的规则允许进行指令优化，在某些情况下，这种优化会带来一些执行的逻辑问题，主要的原因是代码逻辑之间是存在一定的先后顺序，在并发执行情况下，会发生二义性，即按照不同的执行逻辑，会得到不同的结果信息。</p>
+<p>指令重排是有原则的，并非所有的指令都可以随便改变执行的顺序，以下是基本原则：</p>
+<p>①程序顺序原则：一个线程内保证语义的串行性；</p>
+<p>②volatile规则：volatile变量的写，先发生于读，这保证了volatile变量的可见性；</p>
+<p>③锁规则：解锁（unlock）必然发生在加锁（lock）前；</p>
+<p>④传递性：A先于B，B先于C，那么A必然先于C；</p>
+<p>⑤线程的start()方法先于它的每一个动作；</p>
+<p>⑥线程的所有操作先于线程的终结（Thread.join()）；</p>
+<p>⑦线程的中断（interrupt()）先于被中断线程的代码；</p>
+<p>⑧对象的构造函数执行、结束先于finalize()方法。</p>
+<h2 id="2-线程基础"><a href="#2-线程基础" class="headerlink" title="2.线程基础"></a>2.线程基础</h2><h3 id="2-1线程与进程"><a href="#2-1线程与进程" class="headerlink" title="2.1线程与进程"></a>2.1线程与进程</h3><p>进程（Process）是计算机中的程序关于某数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位，是操作系统结构的基础。进程是线程的容器。线程就是轻量级进程，是程序执行的最小单位。使用多线程而不使用多进程进行并发程序的设计，是因为线程间的切换和调度的成本远远小于进程。</p>
+<h3 id="2-2线程的状态"><a href="#2-2线程的状态" class="headerlink" title="2.2线程的状态"></a>2.2线程的状态</h3><p><img src="/img/backend/thread_status.jpg"></p>
+<p>NEW状态表示刚刚创建的线程，这种线程还没有开始执行。等到线程的start()方法调用时，才表示线程开始执行。当线程执行时，处于RUNNABLE状态，表示线程所需的一切资源都已经准备就绪。如果线程在执行过程中遇到了synchronize同步块，就会进入BLOCKED阻塞状态，这时线程会暂停执行，直到获得了请求的锁。WAITING和TIMED_WAITING都表示等待状态，它们的区别是WAITING会进入一个无时间限制的等待，TIEMD_WAITING会进入一个有时限的等待。当线程执行完毕后，则进入TERMINATED状态，表示结束。</p>
+<p>需要注意的是：从NEW状态出发后，线程不能再回到NEW状态，同理，处于TERMINATED的线程也不能再回到RUNNABLE状态。</p>
+<h2 id="3-线程的基本操作"><a href="#3-线程的基本操作" class="headerlink" title="3.线程的基本操作"></a>3.线程的基本操作</h2><h3 id="3-1新建线程"><a href="#3-1新建线程" class="headerlink" title="3.1新建线程"></a>3.1新建线程</h3><p>Java使用Thread类代表线程，所有的线程对象都必须是Thread类或其子类的实例。Java可以用三种方式来创建线程，如下所示：</p>
+<p>①继承Thread类创建线程；</p>
+<p>②实现Runnable接口创建线程；</p>
+<p>③使用Callable和Future创建线程。</p>
+<p>当创建了一个Thread对象之后，可以调用start()方法，接着start()方法就会新建一个线程并让这个线程执行run()方法。需要注意的是：不要用run()开启新线程，它只会在当前线程中，串行run()方法中的代码。</p>
+<h3 id="3-2终止线程"><a href="#3-2终止线程" class="headerlink" title="3.2终止线程"></a>3.2终止线程</h3><p>如果需要终止线程，可以调用stop()方法，但这是一个已经被JDK废弃的方法。为什么这个方法被废弃呢，Thread.stop()方法在结束线程时，会直接终止线程，并且会立即释放这个线程所持有的锁。而这些锁恰恰是用来维持对象一致性的。如果此时，写程序写入数据正写到一半，并强行终止，那么对象就会被写坏，同时，由于锁已被释放，另外一个等待该锁的读线程就顺理成章的读到了这个不一致的对象。所以，这是一个不推荐使用并且已被废弃的方法。</p>
+<h3 id="3-3线程中断"><a href="#3-3线程中断" class="headerlink" title="3.3线程中断"></a>3.3线程中断</h3><p>线程中断并不会使线程立即退出，而是给线程发送一个通知，告诉目标线程有别的线程希望它退出，至于目标线程接到通知后如何处理，则完全由目标线程自行决定。</p>
+<p>Thread.sleep()方法会让当前线程休眠若干时间，它会抛出一个InterruptedException中断异常。InterruptedException不是运行时异常，也就是说程序必须捕获并且处理它，当线程在sleep()休眠时，如果被中断，这个异常就会产生。需要注意的是：Thread.sleep()方法由于中断而抛出异常，此时，它会清除中断标记，如果不加处理，那么在下一次循环开始时，就无法捕获这个中断，故在异常处理中，需再次设置中断标记位。</p>
+<h3 id="3-4等待（wait）和通知"><a href="#3-4等待（wait）和通知" class="headerlink" title="3.4等待（wait）和通知"></a>3.4等待（wait）和通知</h3><p>当在一个对象实例上调用object.wait()方法后，当前线程就会在这个对象上等待，停止继续执行，状态转为等待状态，并进入对象实例的等待队列。在等待队列中，可能会有多个线程，因为系统运行多个线程同时等待某一个对象。</p>
+<p>只有当object.notify()被调用时，它就会从这个等待队列中，随机选择一个线程，将其唤醒（这里唤醒指的是从等待状态变为就绪状态，而不是马上继续执行，要等CPU分配了执行的时间片该线程才能够继续执行）。除了notify()方法外，Object对象还有一个类似的方法notifyAll()方法，它和notify()的功能基本一致，但不同的是，它会唤醒在这个等待队列的所有等待的线程，而不是随机选择一个。</p>
+<p>Object.wait()方法和Object.notify()方法并不是可以随便调用的，它必须包含在对应的synchronized语句中，并且必须先获得目标对象的监视器。需要注意的是：Object.wait()方法和Thread.sleep()方法都可以让线程等待若干时间。除了wait()可以被唤醒外，另外一个主要的区别就是wait()方法会释放目标对象的锁，Thread.sleep()方法不会释放任何资源。</p>
+<h3 id="3-5挂起（suspend）和继续执行（resume）线程"><a href="#3-5挂起（suspend）和继续执行（resume）线程" class="headerlink" title="3.5挂起（suspend）和继续执行（resume）线程"></a>3.5挂起（suspend）和继续执行（resume）线程</h3><p>线程挂起（suspend）和继续执行（resume），这是一对相反的操作，被挂起的线程必须要等到resume()操作后，才能继续执行。因为suspend()方法在导致线程暂停的同时，并不会去释放任何锁资源，所以不推荐使用这个方法。</p>
+<h2 id="4-其它"><a href="#4-其它" class="headerlink" title="4.其它"></a>4.其它</h2><h3 id="4-1等待线程结束（join）和谦让（yield）"><a href="#4-1等待线程结束（join）和谦让（yield）" class="headerlink" title="4.1等待线程结束（join）和谦让（yield）"></a>4.1等待线程结束（join）和谦让（yield）</h3><p>很多时候，一个线程的输入可能非常依赖于另外一个或者多个线程的输出，此时，这个线程就需要等待依赖线程执行完毕，才能继续继续执行，而JDK就是通过join()方法来实现这个功能的。join()方法的本质就是让调用线程wait()在当前线程对象实例上，当线程执行完成后，被等待的线程会在退出前调用notifyAll()通知所有的等待线程继续执行。</p>
+<p>yield()是一个静态方法，一旦执行，它会使当前线程让出CPU，但这里让出CPU并不意味着当前线程不执行了。当前线程在让出CPU后，只是出于就绪状态，还是会继续进行CPU资源的竞争，但是否能被分配到，就不一定了。</p>
+<h3 id="4-2线程组"><a href="#4-2线程组" class="headerlink" title="4.2线程组"></a>4.2线程组</h3><p>在一个系统中，如果线程数量很多，而且功能分配比较明确，就可以将相同功能的线程放置在一个线程组里。</p>
+<h3 id="4-3守护线程（Daemon）"><a href="#4-3守护线程（Daemon）" class="headerlink" title="4.3守护线程（Daemon）"></a>4.3守护线程（Daemon）</h3><p>守护线程是一种特殊的线程，就和它的名字一样，它是系统的守护者，在后台默默地完成一些系统的服务，比如垃圾回收线程，JIT线程就可以理解为守护线程。线程在实例化后默认为用户线程，可以调用setDaemon(true)方法将目标线程设置为守护线程，但这个设置操作必须先于start()，也就是说要在线程启动前将目标线程设置为守护线程。</p>
+<h3 id="4-4线程优先级"><a href="#4-4线程优先级" class="headerlink" title="4.4线程优先级"></a>4.4线程优先级</h3><p>Java中线程可以有自己的优先级，优先级高的线程在竞争资源时会更有优势，更可能抢占资源，当然，这也只是一个概率的问题。在Java中，使用1到10来表示线程的优先级，可以调用setPriority()方法来设置线程的优先级，但这个设置操作必须先于start()，也就是说要在线程启动前设置好线程的优先级。</p>
+<h3 id="4-5同步锁（synchronized）"><a href="#4-5同步锁（synchronized）" class="headerlink" title="4.5同步锁（synchronized）"></a>4.5同步锁（synchronized）</h3><p>关键字synchronized的作用是实现线程间的同步，它的工作是对同步代码加锁，使得每一次，只能有一个线程进入同步块，从而保证线程间的安全性。synchronized的用法：</p>
+<p>①指定加锁对象：对给定对象加锁，进入同步代码前要获得给定对象的锁；</p>
+<p>②直接作用于实例方法：相当于对当前实例加锁，进入同步代码前要获得当前实例的锁；</p>
+<p>③直接作用于静态方法：相当于对当前类加锁，进入同步代码前要获得当前类的锁。</p>
+<p>除了用于线程同步、确保线程安全外，synchronized还可以保证线程间的可见性和有序性，并且被synchronized限制的多个线程是串行执行的。</p>
+<p>以上摘自《Java高并发程序设计》一书前两章的部分内容，仅当做笔记作一个记录，省略了书中举的实例。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://silence-tao.github.io">Silence</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://silence-tao.github.io/10010/">https://silence-tao.github.io/10010/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://silence-tao.github.io" target="_blank">米兰半岛铁盒</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a></div><div class="post_share"><div class="social-share" data-image="/img/default_page_img_04.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/reward-wepay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/reward-wepay.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/reward-alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/reward-alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/10011/"><img class="prev-cover" src="/img/default_page_img_01.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JDK并发包</div></div></a></div><div class="next-post pull-right"><a href="/10009/"><img class="next-cover" src="/img/default_page_img_03.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Spring IOC和DI简单理解</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/10016/" title="JDK源码分析之——AQS"><img class="cover" src="/img/default_page_img_04.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-04-08</div><div class="title">JDK源码分析之——AQS</div></div></a></div><div><a href="/10019/" title="JDK源码分析之——ThreadLocal"><img class="cover" src="/img/default_page_img_06.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-04-13</div><div class="title">JDK源码分析之——ThreadLocal</div></div></a></div><div><a href="/10014/" title="Java并发中遇到的锁"><img class="cover" src="/img/default_page_img_05.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-04-08</div><div class="title">Java并发中遇到的锁</div></div></a></div><div><a href="/10013/" title="关于多线程的锁优化"><img class="cover" src="/img/default_page_img_02.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-04-07</div><div class="title">关于多线程的锁优化</div></div></a></div><div><a href="/10015/" title="JDK源码分析之——CountDownLatch与CyclicBarrier"><img class="cover" src="/img/default_page_img_06.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-04-09</div><div class="title">JDK源码分析之——CountDownLatch与CyclicBarrier</div></div></a></div><div><a href="/10025/" title="JDK源码分析之——FutureTask"><img class="cover" src="/img/default_page_img_04.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-05-19</div><div class="title">JDK源码分析之——FutureTask</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Silence</div><div class="author-info__description">米兰半岛铁盒-个人博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/silence-tao"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/silence-tao" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:silentao@126.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">好久没有更新博客了，这次暂时先换一下博客的主题，期待后面的持续更新吧~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC%E7%89%B9%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">1.基本特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1%E7%89%B9%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text">1.1特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2%E6%8C%87%E4%BB%A4%E9%87%8D%E6%8E%92"><span class="toc-number">1.2.</span> <span class="toc-text">1.2指令重排</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80"><span class="toc-number">2.</span> <span class="toc-text">2.线程基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E7%BA%BF%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">2.1线程与进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">2.2.</span> <span class="toc-text">2.2线程的状态</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">3.线程的基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E6%96%B0%E5%BB%BA%E7%BA%BF%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">3.1新建线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2%E7%BB%88%E6%AD%A2%E7%BA%BF%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">3.2终止线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3%E7%BA%BF%E7%A8%8B%E4%B8%AD%E6%96%AD"><span class="toc-number">3.3.</span> <span class="toc-text">3.3线程中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4%E7%AD%89%E5%BE%85%EF%BC%88wait%EF%BC%89%E5%92%8C%E9%80%9A%E7%9F%A5"><span class="toc-number">3.4.</span> <span class="toc-text">3.4等待（wait）和通知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5%E6%8C%82%E8%B5%B7%EF%BC%88suspend%EF%BC%89%E5%92%8C%E7%BB%A7%E7%BB%AD%E6%89%A7%E8%A1%8C%EF%BC%88resume%EF%BC%89%E7%BA%BF%E7%A8%8B"><span class="toc-number">3.5.</span> <span class="toc-text">3.5挂起（suspend）和继续执行（resume）线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%85%B6%E5%AE%83"><span class="toc-number">4.</span> <span class="toc-text">4.其它</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1%E7%AD%89%E5%BE%85%E7%BA%BF%E7%A8%8B%E7%BB%93%E6%9D%9F%EF%BC%88join%EF%BC%89%E5%92%8C%E8%B0%A6%E8%AE%A9%EF%BC%88yield%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">4.1等待线程结束（join）和谦让（yield）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2%E7%BA%BF%E7%A8%8B%E7%BB%84"><span class="toc-number">4.2.</span> <span class="toc-text">4.2线程组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B%EF%BC%88Daemon%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">4.3守护线程（Daemon）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4%E7%BA%BF%E7%A8%8B%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">4.4.</span> <span class="toc-text">4.4线程优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5%E5%90%8C%E6%AD%A5%E9%94%81%EF%BC%88synchronized%EF%BC%89"><span class="toc-number">4.5.</span> <span class="toc-text">4.5同步锁（synchronized）</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/10028/" title="Spring整体架构"><img src="/img/default_page_img_02.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Spring整体架构"/></a><div class="content"><a class="title" href="/10028/" title="Spring整体架构">Spring整体架构</a><time datetime="2021-03-06T07:56:00.000Z" title="发表于 2021-03-06 15:56:00">2021-03-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/10027/" title="JDK源码分析之——Condition"><img src="/img/default_page_img_01.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JDK源码分析之——Condition"/></a><div class="content"><a class="title" href="/10027/" title="JDK源码分析之——Condition">JDK源码分析之——Condition</a><time datetime="2020-06-14T09:42:00.000Z" title="发表于 2020-06-14 17:42:00">2020-06-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/10026/" title="JDK源码分析之——ReentrantLock"><img src="/img/default_page_img_04.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JDK源码分析之——ReentrantLock"/></a><div class="content"><a class="title" href="/10026/" title="JDK源码分析之——ReentrantLock">JDK源码分析之——ReentrantLock</a><time datetime="2020-05-29T14:08:00.000Z" title="发表于 2020-05-29 22:08:00">2020-05-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/10025/" title="JDK源码分析之——FutureTask"><img src="/img/default_page_img_04.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JDK源码分析之——FutureTask"/></a><div class="content"><a class="title" href="/10025/" title="JDK源码分析之——FutureTask">JDK源码分析之——FutureTask</a><time datetime="2020-05-19T14:00:00.000Z" title="发表于 2020-05-19 22:00:00">2020-05-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/10023/" title="Java垃圾收集器"><img src="/img/default_page_img_05.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java垃圾收集器"/></a><div class="content"><a class="title" href="/10023/" title="Java垃圾收集器">Java垃圾收集器</a><time datetime="2019-12-14T07:05:00.000Z" title="发表于 2019-12-14 15:05:00">2019-12-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By Silence</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><span>Copyright © 2019 <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow"> 赣ICP备16012352号-2</a> </span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
